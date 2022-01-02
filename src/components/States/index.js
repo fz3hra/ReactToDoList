@@ -3,26 +3,30 @@ import { Header, State, Div } from './StatesElements'
 
 // connecting with firebase
 import database from '../../utils/firebase'
-import { ref, set, get, child, query } from "firebase/database";
-
+// import { ref, set, get, child, query, serverTimestamp } from "firebase/database";
+import { collection, getDocs, onSnapshot, addDoc, serverTimestamp, orderBy, query  } from "firebase/firestore"; 
 
 const States = ({input, setInput, todos, setTodos}) => {
     // link to state in parent 
     const inputHandler = (e) => {
-        console.log(e.target.value)
         setInput(e.target.value)
     }
-    const submitHandler = (e, error) => {
+    const submitHandler = async (e, error) => {
         console.info("testing", error)
         e.preventDefault()
+        // setTodos([...todos, input])
         // version 9
-        const db = database;
-            set(ref(db, 'text/' + input), {
-                text: input,
-                completed: false,
-                id: Math.random() * 1000
-            });
-            console.log("check", db)
+        // const db = database;
+        //     set(ref(db, 'text/' + input), {
+        //         text: input,
+        //         completed: false,
+        //         id: Math.random() * 1000
+        //     });
+        await addDoc(collection(database, 'todos'), {
+            todos: input,
+            timestamp: serverTimestamp()
+        })
+            console.log("check", database)
             setInput('')
     }
     // checking whats in the database
@@ -46,7 +50,8 @@ const States = ({input, setInput, todos, setTodos}) => {
             </State>
                 <hr className="line"/>
             <Div>
-                <input 
+                <form>
+                    <input 
                 // to review later
                     value={input} // when we click on the button, the ui for input shouldd return back to no text
                     name="text"
@@ -59,6 +64,7 @@ const States = ({input, setInput, todos, setTodos}) => {
                     className="button"
                     onClick={submitHandler}
                 >Add</button>
+                </form>
             </Div>
         </>
     )

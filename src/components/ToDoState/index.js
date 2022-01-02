@@ -15,7 +15,7 @@ const ToDoState = ({text, todos, setTodos, todo, input}) => {
             update(child(dbRef, `text/${text}`), {
                 completed: !completed
             })    
-            console.log("update", dbRef)   
+            // console.log("update", dbRef)   
     }
     // event delete
     const deleteHandler = () => {

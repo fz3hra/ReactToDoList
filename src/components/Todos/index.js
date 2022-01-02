@@ -3,6 +3,7 @@ import ToDoState from '../ToDoState';
 
 const ToDoList = ({ todos, setTodos }) => {
     // reading from database
+    
     return (
         <div>
             <ul className="toDoList">
@@ -11,7 +12,7 @@ const ToDoList = ({ todos, setTodos }) => {
                         todo={todo}
                         todos={todos} 
                         setTodos={setTodos}
-                        text={todo.text}
+                        text={todo.todos}
                         key={todo.id}
                     />
                 )) : ""} 
