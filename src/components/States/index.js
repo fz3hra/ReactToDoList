@@ -40,7 +40,7 @@ const States = ({input, setInput, todos, setTodos}) => {
         <>
             <Header>
                 {/* todo title */}
-                <p>#toDo - refresh page for update</p>
+                <p>#toDo List using React</p>
             </Header>
             {/* not functional for the time being */}
             <State onClick={statusHandler}>
