@@ -2,9 +2,8 @@ import React, {useState, useEffect} from 'react'
 import States from '../components/States'
 import ToDoList from '../components/Todos'
 // firebase
-import database from '../utils/firebase'
-import { ref, get, child } from "firebase/database";
-import { collection, getDocs, onSnapshot, addDoc, serverTimestamp, orderBy, query  } from "firebase/firestore"; 
+import {database} from '../utils/firebase'
+import { collection, getDocs, onSnapshot, addDoc, serverTimestamp, orderBy, query, doc  } from "firebase/firestore"; 
 
 const Main = () => {
     const [input, setInput] = useState('')
@@ -15,10 +14,10 @@ const Main = () => {
     useEffect(() => {
         onSnapshot(query(collection(database, 'todos'), orderBy("timestamp")), (snapshot) => {
             setTodos(snapshot.docs.map((doc) => ({
-                todos: doc.data().todos
+                todos: doc.data().todos, id: doc.id, completedTask: doc.data().completedTask
             })))
             console.log("todos", (snapshot.docs.map((doc) => ({
-                todos: doc.data().todos
+                todos: doc.data().todos, id: doc.id, completedTask: doc.data().completedTask
             }))))
         })
     }, [])

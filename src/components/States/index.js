@@ -2,7 +2,7 @@ import React from 'react'
 import { Header, State, Div } from './StatesElements'
 
 // connecting with firebase
-import database from '../../utils/firebase'
+import {database} from '../../utils/firebase'
 // import { ref, set, get, child, query, serverTimestamp } from "firebase/database";
 import { collection, getDocs, onSnapshot, addDoc, serverTimestamp, orderBy, query  } from "firebase/firestore"; 
 
@@ -24,9 +24,10 @@ const States = ({input, setInput, todos, setTodos}) => {
         //     });
         await addDoc(collection(database, 'todos'), {
             todos: input,
-            timestamp: serverTimestamp()
+            timestamp: serverTimestamp(),
+            completedTask: false
         })
-            console.log("check", database)
+            // console.log("check", d.document)
             setInput('')
     }
     // checking whats in the database

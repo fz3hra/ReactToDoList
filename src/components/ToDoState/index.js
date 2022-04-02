@@ -3,34 +3,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 // firebase
-import database from '../../utils/firebase'
-import { ref, remove, child, update } from "firebase/database";
+import {database} from '../../utils/firebase'
+import { ref, remove, child, update, getDatabase } from "firebase/database";
+import {
+    doc,
+    updateDoc,
+    deleteDoc
+  } from "firebase/firestore";
 
 
-const ToDoState = ({text, todos, setTodos, todo, input}) => {
+const ToDoState = ({text, todos, setTodos, todo}) => {
     // event complete
-    const completeHandler = ({completed, input}) => {
-        // check complete when button pressed in firebase
-        const dbRef = ref(database);
-            update(child(dbRef, `text/${text}`), {
-                completed: !completed
-            })    
-            // console.log("update", dbRef)   
-    }
-    // event delete
-    const deleteHandler = () => {
-            const dbRef = ref(database);
-            remove(child(dbRef, `text/${text}`))  
-            console.log("toremove", dbRef)    
-    }
+    const toggleComplete = async () => {
+        await updateDoc(doc(database, "todos", todo.id), { completedTask: !todo.completedTask});
+      };
+// delete event
+      const handleDelete = async () => {
+        await deleteDoc(doc(database, "todos", todo.id));
+      };
     return ( 
         <div className="toDoState">
-            <li className={`toDoLi ${todo.completed ? "completedTask" : ""}`}>{text}</li>
-            <button className="toDoStateCompleted">
-                <FontAwesomeIcon icon={faCheck} onClick={completeHandler}/>
+            <li className={`toDoLi ${todo.completedTask ? "completedTask" : ""}`}>{text}</li>
+            <button className="toDoStateCompleted completedTask">
+                <FontAwesomeIcon icon={faCheck} onClick={toggleComplete}/>
             </button>
             <button className="toDoStateTrash">
-                <FontAwesomeIcon icon={faTrash} onClick={deleteHandler}/>
+                <FontAwesomeIcon icon={faTrash} onClick={handleDelete}/>
             </button>
         </div>
     )
