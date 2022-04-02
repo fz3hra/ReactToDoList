@@ -14,6 +14,7 @@ const ToDoList = ({ todos, setTodos }) => {
                         setTodos={setTodos}
                         text={todo.todos}
                         key={todo.id}
+                        completedTask={todo.completedTask}
                     />
                 )) : ""} 
             </ul>
